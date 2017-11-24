@@ -15,8 +15,6 @@ public class RedisManagerConfig {
 	
 	@Autowired
 	private RedisConnectionFactory connectionFactory;
-	
-	
 
 	@SuppressWarnings("serial")
 	@Bean(name="redisCacheManager")
@@ -28,9 +26,7 @@ public class RedisManagerConfig {
 	        add("user");
 	    }};
 		builder.initialCacheNames(cacheNames); //设置多个缓存
-		return builder.build();
-		
+		return builder.build();		
 	}
-
 
 }
