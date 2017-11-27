@@ -45,7 +45,7 @@
 		
 	<!-- 启用缓存注解功能 -->
     <cache:annotation-driven cache-manager="redisCacheManager"/>
-	<bean id="RedisUtil" class="core.util.RedisUtil" />
+	<bean id="redisUtil" class="core.util.RedisUtil" />
 	
 
 </beans>
