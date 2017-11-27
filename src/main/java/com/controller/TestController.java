@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,9 @@ public class TestController {
 	@RequestMapping(value="index", method = RequestMethod.GET)
 	public Object index(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("/test");
-		System.out.println(cacheManager.getCache("user"));
+		Cache cache = cacheManager.getCache("user");
+		cache.put("key", "value");
+		System.out.println(cache.get("key"));
 		return mv;
 	}
 	
