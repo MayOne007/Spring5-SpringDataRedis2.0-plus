@@ -12,7 +12,7 @@ import com.service.DictService;
 /** 声明用的是Spring的测试类 **/
 @RunWith(SpringJUnit4ClassRunner.class)
 /** 声明spring主配置文件位置 **/
-@ContextConfiguration(locations={"classpath:applicationContext*.xml"})
+@ContextConfiguration(locations={"classpath*:applicationContext*.xml"})
 /** 事务自动回滚  **/
 /*@Rollback*/
 public class SpringJunitTest {
@@ -30,7 +30,7 @@ public class SpringJunitTest {
 	
 	@Test
 	public void testJdkAaop() {
-		/*dictService.txOne();*/
+		dictService.txOne();
 	}
 	
 	public static void main(String[] args) {
