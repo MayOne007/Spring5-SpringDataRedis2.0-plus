@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.entity.Dict;
+import com.service.DictService;
+
 import core.util.RedisUtil;
 
 @Controller
@@ -23,6 +26,9 @@ public class TestController {
 
 	@Autowired
 	private RedisUtil redisUtil;
+	
+	@Autowired
+	private DictService dictService;
 	
 	@Autowired
 	@Qualifier("redisCacheManager")
@@ -34,6 +40,7 @@ public class TestController {
 		Cache cache = cacheManager.getCache("user");
 		cache.put("key", "value");
 		System.out.println(cache.get("key"));
+		dictService.txOne();
 		return mv;
 	}
 	
@@ -42,7 +49,8 @@ public class TestController {
 	@RequestMapping(value="json", method = RequestMethod.GET)
 	public Object json(HttpServletRequest request) {
 		Map m = new HashMap();
-		m.put("key", "value");
+		m.put("queryObject", dictService.getById(1));
+		m.put("cacheObject", cacheManager.getCache("user").get("1",Dict.class));		
 		redisUtil.setCacheMap("m", m);
 		return redisUtil.getCacheMap("m");
 	}
