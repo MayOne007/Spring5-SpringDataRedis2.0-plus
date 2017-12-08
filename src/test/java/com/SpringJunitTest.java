@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.entity.Dict;
 import com.service.DictService;
 
 /** 声明用的是Spring的测试类 **/
@@ -23,18 +24,22 @@ public class SpringJunitTest {
 	private DictService dictService;
 	
 	@Test
-	public void test() {
-		logger.error("test");
-		System.out.println("test");
+	public void testLazy() {
+		Dict d = dictService.loadById(13);
+		//Set l = d.getChildDicts();
+		System.out.print(d.getParentDict());
 	}
 	
-	@Test
-	public void testJdkAaop() {
+	/**
+	 * 测试事务内部另起事务
+	 */
+	/*@Test
+	public void testTxAaop() {
 		dictService.txOne();
-	}
+	}*/
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		logger.error("main");
 		System.out.println("main");
-	}
+	}*/
 }

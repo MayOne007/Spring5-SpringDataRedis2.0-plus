@@ -2,18 +2,27 @@ package com.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "t_dict")
-public class Dict implements java.io.Serializable {
+public class Dict implements Serializable {
 	
-	private static final long serialVersionUID = -4849733026362330866L;
-	
+	private static final long serialVersionUID = 1951057563788686787L;
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "N_ID", unique = true, nullable = false)
@@ -26,7 +35,15 @@ public class Dict implements java.io.Serializable {
 	private String parentKey;
 	@Column(name = "N_SORT")
 	private Integer sort;
-
+	
+	@JsonIgnore
+	@ManyToOne(targetEntity = Dict.class,cascade=CascadeType.REFRESH,fetch = FetchType.LAZY)  
+	@JoinColumn(name="C_PARENTKEY",referencedColumnName="C_KEY",insertable=false,updatable=false)
+	private Dict parentDict; 
+	
+	@JsonIgnore
+	@OneToMany(targetEntity = Dict.class, cascade=CascadeType.REFRESH, mappedBy = "parentDict")
+	private List<Dict> childDicts;
 	
 	public Integer getId() {
 		return this.id;
@@ -67,5 +84,21 @@ public class Dict implements java.io.Serializable {
 	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
+	
+	public Dict getParentDict() {
+		return parentDict;
+	}
 
+	public void setParentDict(Dict parentDict) {
+		this.parentDict = parentDict;
+	}
+
+	public List<Dict> getChildDicts() {
+		return childDicts;
+	}
+
+	public void setChildDicts(List<Dict> childDicts) {
+		this.childDicts = childDicts;
+	}
+	
 }

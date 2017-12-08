@@ -1,7 +1,9 @@
 package com.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,7 +42,11 @@ public class TestController {
 		Cache cache = cacheManager.getCache("user");
 		cache.put("key", "value");
 		System.out.println(cache.get("key"));
-		dictService.txOne();
+
+		Dict d = dictService.loadById(1);
+		//List<Dict> dl = d.getChildDicts();
+		//System.out.print(dl.size());
+		mv.addObject("o", d);
 		return mv;
 	}
 	
@@ -49,8 +55,10 @@ public class TestController {
 	@RequestMapping(value="json", method = RequestMethod.GET)
 	public Object json(HttpServletRequest request) {
 		Map m = new HashMap();
-		m.put("queryObject", dictService.getById(1));
-		m.put("cacheObject", cacheManager.getCache("user").get("1",Dict.class));		
+		Dict d = dictService.getById(1);
+		m.put("queryObject", d);
+		Dict rd = cacheManager.getCache("user").get("1",Dict.class);
+		m.put("cacheObject",  rd);
 		redisUtil.setCacheMap("m", m);
 		return redisUtil.getCacheMap("m");
 	}

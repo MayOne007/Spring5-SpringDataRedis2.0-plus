@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class BaseDaoImpl<E> implements BaseDao<E>{
+public class BaseDaoImpl<E> implements BaseDao<E> {
 	
 	@Autowired
 	SessionFactory sessionFactory;
