@@ -3,6 +3,7 @@ package core.service;
 import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class BaseServiceImpl<E> implements BaseService<E>{
 		baseDao.update(e);
 	}
 	
+	@CacheEvict(value="user", key="#id",beforeInvocation=true)
 	@Cacheable(value="user", key="#id")
 	@Override
 	public E getById(Serializable id) {

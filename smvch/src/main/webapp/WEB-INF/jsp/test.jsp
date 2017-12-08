@@ -10,6 +10,6 @@
 </script>
 </head>
 <body>
-水电费阿萨德
+水电费阿萨德'${o}'
 </body>
 </html>
