@@ -10,4 +10,5 @@ public interface DictService extends BaseService<Dict> {
 	
 	public void txTwo();
 	
+	public Object cacheOne(Integer id);
 }
