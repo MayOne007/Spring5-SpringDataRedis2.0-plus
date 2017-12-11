@@ -30,9 +30,9 @@ public class DictServiceImpl extends BaseServiceImpl<Dict> implements DictServic
 		d.setValue("txOnevalue");
 		dictDao.save(d);
 		
-		//((DictService)AopContext.currentProxy()).txTwo();//内部调用另起事务成功，不受下面RuntimeException影响
+		//((DictService)AopContext.currentProxy()).txTwo();//内部调用另起事务成功，txTwo()不受下面RuntimeException影响
 		
-		//txTwo();//内部调用另起事务失败，受下面RuntimeException影响发生回滚
+		//txTwo();//内部调用另起事务失败，txTwo()受下面RuntimeException影响发生回滚
 		
 		throw new RuntimeException("测试回滚");
 	}

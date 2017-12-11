@@ -22,7 +22,7 @@ import com.service.DictService;
 
 import core.util.RedisUtil;
 
-@Controller
+@Controller("testController")
 @RequestMapping("/test")
 public class TestController {
 
