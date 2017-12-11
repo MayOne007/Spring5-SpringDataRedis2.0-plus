@@ -1,6 +1,5 @@
 package com;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,8 @@ import com.service.DictService;
 @ContextConfiguration(locations={"classpath*:applicationContext*.xml"})
 /** 事务自动回滚  **/
 /*@Rollback*/
-public class SpringJunitTest {
+public class SpringJunitTest extends SessionTestCase{
 
-	private static Logger logger = Logger.getLogger(SpringJunitTest.class);
 	
 	@Autowired
 	private DictService dictService;
@@ -27,19 +25,18 @@ public class SpringJunitTest {
 	public void testLazy() {
 		Dict d = dictService.loadById(13);
 		//Set l = d.getChildDicts();
-		System.out.print(d.getParentDict());
+		System.out.println(d.getParentDict());
 	}
 	
 	/**
 	 * 测试事务内部另起事务
 	 */
-	/*@Test
+	@Test
 	public void testTxAaop() {
 		dictService.txOne();
-	}*/
+	}
 	
 	/*public static void main(String[] args) {
-		logger.error("main");
 		System.out.println("main");
 	}*/
 }
