@@ -3,7 +3,6 @@ package com.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.entity.Dict;
 import com.service.DictService;
+import com.util.GsonUtil;
 
 import core.util.RedisUtil;
 
@@ -44,9 +44,8 @@ public class TestController {
 		System.out.println(cache.get("key"));
 
 		Dict d = dictService.loadById(1);
-		//List<Dict> dl = d.getChildDicts();
-		//System.out.print(dl.size());
-		mv.addObject("o", d);
+		List<Dict> dl = d.getChildDicts();
+		mv.addObject("o", GsonUtil.toJson(dl,"parentDict","childDicts"));
 		return mv;
 	}
 	
@@ -54,13 +53,13 @@ public class TestController {
 	@ResponseBody
 	@RequestMapping(value="json", method = RequestMethod.GET)
 	public Object json(HttpServletRequest request) {
-		Map m = new HashMap();
-		Dict d = dictService.getById(1);
-		m.put("queryObject", d);
+		Map cacheMap = new HashMap();
+		Dict d = (Dict) dictService.cacheOne(1);
+		cacheMap.put("queryObject", d);
 		Dict rd = cacheManager.getCache("user").get("1",Dict.class);
-		m.put("cacheObject",  rd);
-		redisUtil.setCacheMap("m", m);
-		return redisUtil.getCacheMap("m");
+		cacheMap.put("cacheObject",  rd);
+		redisUtil.setCacheMap("cacheMap", cacheMap);
+		return redisUtil.getCacheMap("cacheMap");
 	}
 	
 }

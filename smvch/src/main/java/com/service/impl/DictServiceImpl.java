@@ -1,6 +1,8 @@
 package com.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,7 @@ public class DictServiceImpl extends BaseServiceImpl<Dict> implements DictServic
 		
 		throw new RuntimeException("测试回滚");
 	}
+	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void txTwo() {
@@ -46,5 +49,15 @@ public class DictServiceImpl extends BaseServiceImpl<Dict> implements DictServic
 		dictDao.save(d);
 		
 	}
+
+	@CacheEvict(value="user", key="#id",beforeInvocation=true)
+	@Cacheable(value="user", key="#id")
+	@Override
+	public Object cacheOne(Integer id) {
+		System.out.println("cacheOne");
+		return dictDao.getById(id);
+	}
+	
+	
 	
 }
