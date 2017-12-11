@@ -50,7 +50,7 @@ public class DictServiceImpl extends BaseServiceImpl<Dict> implements DictServic
 		
 	}
 
-	@CacheEvict(value="user", key="#id",beforeInvocation=true)
+	/*@CacheEvict(value="user", key="#id",beforeInvocation=true)*/
 	@Cacheable(value="user", key="#id")
 	@Override
 	public Object cacheOne(Integer id) {
